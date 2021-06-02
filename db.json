@@ -1,0 +1,49 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Arthur Oliveira",
+      "email": "aoliveira@hotmail.com.br"
+    },
+    {
+      "id": 2,
+      "name": "Camila Teixeira",
+      "email": "camila102@hotmail.com.br"
+    },
+    {
+      "id": 3,
+      "name": "Carlos Fernandes",
+      "email": "carlinhos11@hotmail.com.br"
+    },
+    {
+      "name": "Maria Júlia da Silva",
+      "email": "mjds@empresa.com.br",
+      "id": 4
+    },
+    {
+      "name": "Carolina Souza",
+      "email": "cvsouza@gmail.com",
+      "id": 5
+    },
+    {
+      "name": "Gabriel Panham",
+      "email": "gaapanham@hotmail.com",
+      "id": 6
+    },
+    {
+      "name": "Luis Gonçalves",
+      "email": "luis.bao@hotmail.com",
+      "id": 7
+    },
+    {
+      "name": "Atila Batista",
+      "email": "atilashow_5@hotmail.com",
+      "id": 8
+    },
+    {
+      "name": "Luis Gonçalves",
+      "email": "luis.bao@hotmail.com",
+      "id": 9
+    }
+  ]
+}
