@@ -3,7 +3,7 @@
 
 # Cadastro de Clientes
 
-## Um simples CRUD feito com React, Bootstrap, HTML5 e CSS3 com seu sistema de grids.
+Um simples CRUD feito com React, Bootstrap, HTML5 e CSS3 com seu sistema de grids.
 
 ## Instalação
 
@@ -24,7 +24,7 @@ Caso a aplicação rode normalmente, estará disponível em localhost:3000
 
  ### npm install json-server
  ### npx json-server --port 3001 db.json
- ## Volte a utilizar novamente o comando json-server -p 3001 db.json e em seguida execute o npm start.
+ ### Volte a utilizar novamente o comando json-server -p 3001 db.json e em seguida execute o npm start.
  
  # Resultados
  
