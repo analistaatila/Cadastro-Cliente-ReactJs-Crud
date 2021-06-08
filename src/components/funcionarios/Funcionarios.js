@@ -5,6 +5,8 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 import TableFunc from './TableFunc'
+import axios from 'axios'
+import { NotificationContainer, NotificationManager } from 'react-notifications'
 
 const Funcionarios = () => {
     const [show, setShow] = useState(false)
@@ -19,7 +21,9 @@ const Funcionarios = () => {
     const [email, setEmail] = useState('')
     const [setor, setSetor] = useState('')
     const [index, setIndex] = useState(null)
-    const [listaFuncionarios, setListaFuncionarios] = useState(JSON.parse(localStorage.getItem('listaFuncionarios')))
+    const [listaFuncionarios, setListaFuncionarios] = useState({})
+
+    const baseUrl = "https://60bf9ca997295a0017c435be.mockapi.io/funcionario"
 
     function clearFields(){
         setNome('')
@@ -40,10 +44,15 @@ const Funcionarios = () => {
     }
 
     const excluir = (index) => {
-        const newFuncionarios = listaFuncionarios
-        newFuncionarios.splice(index, 1)
-        setListaFuncionarios(newFuncionarios)
-        localStorage.setItem("listaFuncionarios", JSON.stringify(listaFuncionarios))
+        index = index+1
+        axios.delete(baseUrl+"/"+index)
+        .then(()=>{
+            alert("Excluido")
+            loadList()
+        })
+        .catch(error=>{
+            alert(error)
+        })
     }
 
     const editar = (index, nome, email, setor) => {
@@ -56,18 +65,34 @@ const Funcionarios = () => {
     
     const atualizar = (e) => {
         e.preventDefault()
-        const pessoa = {
-            nome: nome,
-            email: email,
-            setor: setor
-        }
+        if(nome == '' || email == '' || setor == '')
+            alert("Campos não preenchidos")
+        else{
+            const pessoa = {
+                nome: nome,
+                email: email,
+                setor: setor
+            }
 
-        const newLista = listaFuncionarios
-        newLista.splice(index, 1, pessoa)
-        setListaFuncionarios(newLista)
-        localStorage.setItem("listaFuncionarios", JSON.stringify(listaFuncionarios))
-        handleCloseEditor()
-        window.location.reload()
+            axios.put(`${baseUrl}`+"/"+`${index+1}`, pessoa)
+            .then(()=>{
+                loadList()
+            })
+            .catch(error=>{
+                alert(error)
+            })
+            handleCloseEditor()
+        }
+    }
+
+    function loadList(){
+        axios.get(baseUrl)
+        .then(lista => {
+            setListaFuncionarios(lista.data)
+        })
+        .catch(error=>{
+            alert(error)
+        })
     }
     
     const handleSubmit = (e) => {
@@ -76,22 +101,28 @@ const Funcionarios = () => {
         if(nome == '' || email == '' || setor == '')
             alert("Campos não preenchidos")
         else{
-            const pessoa = [{
+            const pessoa = {
                 nome: nome,
                 email: email,
                 setor: setor
-            }]
-
-            const unirVet = [].concat(listaFuncionarios, pessoa)
-            setListaFuncionarios(unirVet)
+            }
+            axios.post(baseUrl, pessoa)
+            .then((pessoa)=>{
+                const newPessoa = pessoa.data
+                setListaFuncionarios([...listaFuncionarios, newPessoa])
+                alert("Adiconado com sucesso")
+            })
+            .catch(error=>{
+                alert(error)
+            })
             handleClose()
             clearFields()
         }
     }
 
     useEffect(()=>{
-        localStorage.setItem('listaFuncionarios', JSON.stringify(listaFuncionarios))
-    },[listaFuncionarios])
+        loadList()
+    },[])
 
     return (
         <div>
@@ -133,7 +164,7 @@ const Funcionarios = () => {
                                 <option>Recursos Humanos</option>
                             </Form.Control>
                         </Form.Group>
-                        <Button variant="secondary" onClick={() => handleClose}>
+                        <Button variant="secondary" onClick={handleClose}>
                             Cancelar
                         </Button>
                         <Button variant="primary" type='submit'>

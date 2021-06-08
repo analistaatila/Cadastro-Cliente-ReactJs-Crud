@@ -38,8 +38,7 @@ export default function TableFunc(props){
                                     <button className="btn btn-danger ml-2" id='btn-excluir' title='Excluir' 
                                     onClick={
                                         () => {
-                                            props.excluir(index),
-                                            window.location.reload()
+                                            props.excluir(index)
                                         }
                                     }>
                                         <i className="fa fa-trash"></i>
