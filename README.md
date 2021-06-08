@@ -25,6 +25,7 @@ Caso a aplicação rode normalmente, estará disponível em localhost:3000
 
  ### npm install json-server
  ### npx json-server --port 3001 db.json
+ ### ou >> npm install -g json-server
  ### Volte a utilizar novamente o comando json-server -p 3001 db.json e em seguida execute o npm start.
  
  # Resultados
