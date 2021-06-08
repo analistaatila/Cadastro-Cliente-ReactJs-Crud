@@ -7,5 +7,6 @@ export default props =>
         <nav className="menu">
             <NavItem path='/' icon='home' name='Início' />
             <NavItem path='/users' icon='users' name='Usuários' />
+            <NavItem path='/Funcionarios' icon='users' name='Funcionarios'/>
         </nav>
     </aside>
