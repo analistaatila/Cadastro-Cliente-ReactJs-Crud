@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Modal from 'react-bootstrap/Modal'
 import TableFunc from './TableFunc'
-import axios from 'axios'
+import http from '../../http-common'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 
 const Funcionarios = () => {
@@ -22,8 +22,6 @@ const Funcionarios = () => {
     const [setor, setSetor] = useState('')
     const [index, setIndex] = useState(null)
     const [listaFuncionarios, setListaFuncionarios] = useState({})
-
-    const baseUrl = "https://60bf9ca997295a0017c435be.mockapi.io/funcionario"
 
     function clearFields(){
         setNome('')
@@ -44,7 +42,7 @@ const Funcionarios = () => {
     }
 
     const excluir = (index) => {
-        axios.delete(baseUrl+"/"+index)
+        http.delete(`funcionario/${index}`)
         .then(()=>{
             NotificationManager.success('Excluido', 'Excluido')
             loadList()
@@ -73,7 +71,7 @@ const Funcionarios = () => {
                 setor: setor
             }
 
-            axios.put(`${baseUrl}`+"/"+`${index}`, pessoa)
+            http.put(`funcionario/${index}`, pessoa)
             .then(()=>{
                 loadList()
             })
@@ -85,7 +83,7 @@ const Funcionarios = () => {
     }
 
     function loadList(){
-        axios.get(baseUrl)
+        http.get("funcionario/")
         .then(lista => {
             setListaFuncionarios(lista.data)
         })
@@ -105,7 +103,8 @@ const Funcionarios = () => {
                 email: email,
                 setor: setor
             }
-            axios.post(baseUrl, pessoa)
+
+            http.post("funcionario/",pessoa)
             .then((pessoa)=>{
                 const newPessoa = pessoa.data
                 setListaFuncionarios([...listaFuncionarios, newPessoa])
@@ -117,6 +116,23 @@ const Funcionarios = () => {
             handleClose()
             clearFields()
         }
+    }
+
+    const handleSearch  = (e) => {
+        e.preventDefault()
+        const nome = e.target.search.value
+
+        if (nome != ""){
+            http.get(`funcionario/?nome=${nome}`)
+            .then((pessoas) => {
+                setListaFuncionarios(pessoas.data)
+                console.log(listaFuncionarios)
+            })
+            .catch(error=>{
+                NotificationManager.warning('Erro', error)
+            })
+        }else
+            loadList()
     }
 
     useEffect(()=>{
@@ -132,11 +148,7 @@ const Funcionarios = () => {
                 </Button>
             </div>
 
-            {listaFuncionarios.length ?
-                <TableFunc editar={editar} excluir={excluir} funcionarios={listaFuncionarios}/>
-                :
-                null
-            }
+            <TableFunc handleSearch={handleSearch} editar={editar} excluir={excluir} funcionarios={listaFuncionarios}/>
 
             {/* Modal Adicionar */}
             <Modal show={show} onHide={handleClose}>
