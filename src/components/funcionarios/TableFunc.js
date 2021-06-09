@@ -28,7 +28,7 @@ export default function TableFunc(props){
                                     <button className="btn btn-warning" title='Editar' 
                                     onClick={
                                         () => {
-                                            props.editar(index, funcionario.nome, funcionario.email, funcionario.setor)
+                                            props.editar(funcionario.id, funcionario.nome, funcionario.email, funcionario.setor)
                                         }
                                     }>
                                         <i className="fa fa-pencil"></i>
@@ -38,7 +38,7 @@ export default function TableFunc(props){
                                     <button className="btn btn-danger ml-2" id='btn-excluir' title='Excluir' 
                                     onClick={
                                         () => {
-                                            props.excluir(index)
+                                            props.excluir(funcionario.id)
                                         }
                                     }>
                                         <i className="fa fa-trash"></i>

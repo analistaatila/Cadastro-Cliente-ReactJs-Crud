@@ -44,14 +44,13 @@ const Funcionarios = () => {
     }
 
     const excluir = (index) => {
-        index = index+1
         axios.delete(baseUrl+"/"+index)
         .then(()=>{
-            alert("Excluido")
+            NotificationManager.success('Excluido', 'Excluido')
             loadList()
         })
         .catch(error=>{
-            alert(error)
+            NotificationManager.warning('Erro', error)
         })
     }
 
@@ -66,7 +65,7 @@ const Funcionarios = () => {
     const atualizar = (e) => {
         e.preventDefault()
         if(nome == '' || email == '' || setor == '')
-            alert("Campos não preenchidos")
+            NotificationManager.warning('Erro', "Campos não preenchidos")
         else{
             const pessoa = {
                 nome: nome,
@@ -74,12 +73,12 @@ const Funcionarios = () => {
                 setor: setor
             }
 
-            axios.put(`${baseUrl}`+"/"+`${index+1}`, pessoa)
+            axios.put(`${baseUrl}`+"/"+`${index}`, pessoa)
             .then(()=>{
                 loadList()
             })
             .catch(error=>{
-                alert(error)
+                NotificationManager.warning('Erro', error)
             })
             handleCloseEditor()
         }
@@ -91,7 +90,7 @@ const Funcionarios = () => {
             setListaFuncionarios(lista.data)
         })
         .catch(error=>{
-            alert(error)
+            NotificationManager.warning('Erro', error)
         })
     }
     
@@ -99,7 +98,7 @@ const Funcionarios = () => {
         e.preventDefault()
 
         if(nome == '' || email == '' || setor == '')
-            alert("Campos não preenchidos")
+            NotificationManager.warning('Erro', "Campos não preenchidos")
         else{
             const pessoa = {
                 nome: nome,
@@ -110,10 +109,10 @@ const Funcionarios = () => {
             .then((pessoa)=>{
                 const newPessoa = pessoa.data
                 setListaFuncionarios([...listaFuncionarios, newPessoa])
-                alert("Adiconado com sucesso")
+                NotificationManager.success('Adicionado', "Adiconado com sucesso")
             })
             .catch(error=>{
-                alert(error)
+                NotificationManager.warning('Erro', error)
             })
             handleClose()
             clearFields()
